@@ -4,6 +4,8 @@ import 'package:flutter_amazon_clone/common/widgets/custom_button.dart';
 import 'package:flutter_amazon_clone/common/widgets/custom_textfield.dart';
 import 'package:flutter_amazon_clone/constants/global_variable.dart';
 
+import '../services/auth_services.dart';
+
 enum Auth { signin, signup }
 
 class AuthScreen extends StatefulWidget {
@@ -18,6 +20,8 @@ class _AuthScreenState extends State<AuthScreen> {
   Auth _auth = Auth.signup;
   final _signUpFormKey = GlobalKey<FormState>();
   final _signInFormKey = GlobalKey<FormState>();
+
+  final AuthService authService = AuthService();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
@@ -29,6 +33,14 @@ class _AuthScreenState extends State<AuthScreen> {
     _emailController.dispose();
     _passwordController.dispose();
     _nameController.dispose();
+  }
+
+  void signupUser() {
+    authService.signupUser(
+        context: context,
+        email: _emailController.text,
+        password: _passwordController.text,
+        name: _nameController.text);
   }
 
   @override
@@ -95,7 +107,11 @@ class _AuthScreenState extends State<AuthScreen> {
                       ),
                       CutsomButton(
                         text: "Signup",
-                        onTap: () {},
+                        onTap: () {
+                          if (_signUpFormKey.currentState!.validate()) {
+                            signupUser();
+                          }
+                        },
                       )
                     ],
                   ),
@@ -147,7 +163,12 @@ class _AuthScreenState extends State<AuthScreen> {
                       ),
                       CutsomButton(
                         text: "Signup",
-                        onTap: () {},
+                        onTap: () {
+                          if (_signUpFormKey.currentState!.validate()) {
+                            // signupUser();
+                            print("valid");
+                          }
+                        },
                       )
                     ],
                   ),

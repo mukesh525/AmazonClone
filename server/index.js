@@ -4,11 +4,13 @@ const mongoose = require("mongoose");
 
 const authRouter = require("./router/auth");
 const PORT = 3000;
+app.use(express.json());
 app.use(authRouter);
+
 mongoose
   .connect("mongodb://localhost:27017/amazon")
   .then(() => {
-    console.log("Coonected");
+    console.log("DB Connected");
   })
   .catch((e) => {
     console.log(e);
